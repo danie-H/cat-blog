@@ -1,39 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
-import { fetchBreedsAction, selectBreeds } from '../../catSlice';
+import { fetchBreedsAction, fetchFavouriteAction, selecFavourites, selectBreeds } from '../../catSlice';
 import Card from '../../components/cards/Card';
 import { StyleHomePage } from './StyledHomePage'
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    const breedSelect = useSelector(selectBreeds);
-    const [breeds, setBreeds] = useState([]);
-    let history = useHistory();
+    const selectedBreeds = useSelector(selectBreeds);
+    const selectedFavourites = useSelector(selecFavourites);
+    const [breeds, setBreeds] = useState(null);
+    const [favourites, setFavourites] = useState(null);
+
 
     useEffect(() => {
         dispatch(fetchBreedsAction());
+        dispatch(fetchFavouriteAction())
     }, [dispatch])
 
 
     useEffect(() => {
-        setBreeds(breedSelect);
-    }, [breedSelect])
+        setBreeds(selectedBreeds);
+        setFavourites(selectedFavourites);
+    }, [selectedBreeds, selectedFavourites])
 
-    function showDetail(breed) {
-        history.push({pathname: "/detail", search: `?id=${breed.id}`});
-    }
-
+ 
     return (
-        <StyleHomePage>
-        {breeds && breeds.map(breed => {
-            return (
-                <div className="breeds" onClick={() => showDetail(breed)}>
-                    <Card breed={breed} />
-                </div>)
-        })}
-    </StyleHomePage>
+        <StyleHomePage className="justify-content-md-center">
+            {breeds && favourites && breeds.map(breed => {
+                return (
+                    <div className="breeds">
+                        <Card breed={breed} favourites={favourites} />
+                    </div>)
+            })}
+        </StyleHomePage>
     )
 }
 

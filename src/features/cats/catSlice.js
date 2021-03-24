@@ -1,22 +1,43 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchBreeds } from '../../lib/catsFetcher';
+import { fetchBreeds, fetchFavourites, postFavourite, deleteFavourite, fetchBreedImages, fetchBreedDetail } from '../../lib/catsFetcher';
 
 
 export const fetchBreedsAction = createAsyncThunk('get/breeds', async () => {
     const response = await fetchBreeds();
     return response;
-  });
-  
+});
+
+export const fetchFavouriteAction = createAsyncThunk('get/favourites', async () => {
+  const response = await fetchFavourites();
+  return response;
+});
+
+export const postFavouritesAction = createAsyncThunk('post/favourites', async (id) => {
+  const response = await postFavourite(id);
+  return response;
+});
+
+export const deleteFavouriteAction = createAsyncThunk('delete/favourite', async (id) => {
+  const response = await deleteFavourite(id);
+  return response;
+});
+
+export const fetchBreedDetailsAction = createAsyncThunk('get/breedDetails', async (name) => {
+  const response = await fetchBreedDetail(name);
+  return response;
+});
+
+export const fetchBreedImagesAction = createAsyncThunk('get/breeImages', async (name) => {
+  const response = await fetchBreedImages(name);
+  return response;
+});
+
+
 export const catSlice = createSlice({
   name: 'cats',
-  initialState: { breeds: [] },
+  initialState: { breeds: [], favourites: [], breedDetails: [], breedImages: []  },
   reducers: {
     search: state => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      
     },
   },
   extraReducers: {
@@ -31,19 +52,81 @@ export const catSlice = createSlice({
       state.status = 'failed';
       state.error = action.error.message;
     },
+    [fetchFavouriteAction.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [fetchFavouriteAction.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.favourites = action.payload;
+    },
+    [fetchFavouriteAction.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+    [postFavouritesAction.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [postFavouritesAction.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.success = action.payload;
+
+    },
+    [postFavouritesAction.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+    [deleteFavouriteAction.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [deleteFavouriteAction.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.success = action.payload;
+    },
+    [deleteFavouriteAction.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+    [deleteFavouriteAction.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [deleteFavouriteAction.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.success = action.payload;
+    },
+    [deleteFavouriteAction.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+    [fetchBreedDetailsAction.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [fetchBreedDetailsAction.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.breedDetails = action.payload;
+    },
+    [fetchBreedDetailsAction.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+    [fetchBreedImagesAction.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [fetchBreedImagesAction.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.breedImages = action.payload;
+    },
+    [fetchBreedImagesAction.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+    
   },
 });
 
 export const { search } = catSlice.actions;
-
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
-
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectBreeds= state => state.cats.breeds;
-
+export const selectBreeds = state => state.cats.breeds;
+export const selecFavourites = state => state.cats.favourites;
+export const selectStatus = state => state.status;
+export const selectBreedDetails = state => state.cats.breedDetails;
+export const selectBreedImages = state => state.cats.breedImages;
 export default catSlice.reducer;

@@ -1,17 +1,19 @@
 import React from 'react';
-import { Navbar } from 'react-bootstrap';
-import NavDropdown from 'react-bootstrap/NavDropdown'
+import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 
 const NavBar = () => {
   return (
-    <Navbar bg="black" variant="dark" sticky="top">
-        <NavDropdown bg="black" title="Menu" id="collasible-nav-dropdown" style={{ color: "#5299d3" }}>
-        <NavDropdown.Item style={{ color: "#5299d3" }} href="/">Home</NavDropdown.Item>
-        <NavDropdown.Item style={{ color: "#5299d3" }} href="/welcome">Admin</NavDropdown.Item>
-        <NavDropdown.Item style={{ color: "#5299d3" }} href="/users">Users</NavDropdown.Item>
-        <NavDropdown.Item style={{ color: "#5299d3" }} href="/lessons">Lessons</NavDropdown.Item>
-        <NavDropdown.Item style={{ color: "#5299d3" }} href="/challenges">Challenges</NavDropdown.Item>
-      </NavDropdown>    
+    <Navbar bg="light" expand="md" fixed="top">
+      <Navbar.Brand href="/">Cat blog</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link href="/favorite">Mes favoris</Nav.Link>
+        </Nav>
+        <Form inline>
+          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+        </Form>
+      </Navbar.Collapse>
     </Navbar>
   );
 };

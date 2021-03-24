@@ -5,11 +5,9 @@ const client = axios.create({
     headers: {
         'x-api-key': '7323a148-393c-4280-99fc-15ce80719208',
         'X-Requested-With': true,
-        'Content-Type': 'application/json'
-    },
-    // params: {
-    //     api_key: '7323a148-393c-4280-99fc-15ce80719208'
-    // }
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': "*"
+    }
 });
 
 export default client;

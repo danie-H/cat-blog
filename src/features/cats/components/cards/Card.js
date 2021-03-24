@@ -1,50 +1,50 @@
-import React from 'react';
-import { Progress } from 'react-sweet-progress';
-import "react-sweet-progress/lib/style.css";
-import StyleCard from './StyledCards'; 
+import React, { useEffect, useState } from 'react';
+import { StyledCardComponent } from './StyledCards'; 
+import { useHistory } from 'react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import isFavourite from '../../../../lib/is-favourites';
+import { useDispatch } from 'react-redux';
+import { deleteFavouriteAction, postFavouritesAction } from '../../catSlice';
 
-const Card = (props) => {
+const CardComponent = ({ breed: { name : title, id, image }, favourites}) => {
+    const dispatch = useDispatch();
+    const [isFav, setIsFav] = useState(false);
 
-    const {breed: {name : title, intelligence, energy_level, reference_image_id}} = props;
-    const imageSrc = `https://cdn2.thecatapi.com/images/${reference_image_id}.jpg`
+    useEffect(() => {
+        setIsFav(isFavourite(favourites, image));
+    }, [favourites, image])
+    let history = useHistory();
+    function showDetail(id) {
+        history.push({pathname: "/detail", search: `?id=${id}`});
+    }
+
+    function handleClick(id) {
+       if(isFavourite(favourites, image)) {
+        dispatch(deleteFavouriteAction(id));
+        setIsFav(!isFav);
+       } else {
+        dispatch(postFavouritesAction(id));
+        setIsFav(!isFav);
+       }
+    }
+
     return (
-        <StyleCard>
-            <div className="poster_path">
-                    <img src={imageSrc} alt={title} />
-            </div>
-            <div className="dateAndTitle">
-                <p className="title">{title}</p>
-            </div>
-            <div className="vote_average">
-                <div className="intelligence">
-                <span>Intelligence</span>
-                <Progress 
-                    percent={intelligence *20}
-                    status="default"
-                    theme={{
-                        default: {
-                            symbol: '',
-                            color : ( intelligence < 3) ? 'red' : 'green'
+        <StyledCardComponent>
+            { image && <StyledCardComponent.Img style={{ aspectRatio: '4/3' }} variant="top" src={`${image.url}`} alt={title} onClick={() => showDetail(id)} />}
+            <StyledCardComponent.Body>
+                <StyledCardComponent.Title>{title}</StyledCardComponent.Title>
+                <StyledCardComponent.Text as='div'>
+                        { image && favourites && 
+                            <FontAwesomeIcon icon={faThumbsUp} size='2x' 
+                                color={isFav ? '#6a05c7': '#dedce0'} 
+                                style={{cursor: 'pointer'}} onClick={() => handleClick(image.id)}
+                            />
                         }
-                    }}
-                />
-                </div>
-                <div className="energy">
-                    <span>Energy </span>
-                    <Progress 
-                        percent={energy_level *20}
-                        status="default"
-                        theme={{
-                            default: {
-                                symbol: '',
-                                color : ( energy_level < 3) ? 'red' : 'green'
-                            }
-                        }}
-                    />
-                </div>
-            </div>
-        </StyleCard>
+                </StyledCardComponent.Text>
+            </StyledCardComponent.Body>
+        </StyledCardComponent>
     )
 }
 
-export default Card;
+export default CardComponent;

@@ -1,9 +1,42 @@
+import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
+
+export const StyledCardComponent = styled(Card)`
+    width: 300px;
+    height: 300px;
+    margin: 20px;
+    background-color: aliceblue !important;
+    box-shadow: 10px 5px 5px #bcbcc1;
+    &:hover{
+        box-shadow: none;
+    }
+    & .card-img-top {
+        padding: 0.25em;
+        cursor: pointer;
+    }
+    & .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        & .h5 {
+            font-size: 0.8em;
+            font-weight: bolder;
+        }
+        height: 100%;
+        padding: 0.5em;
+    }
+    & .card-text {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+`;
 
 const StyledCard = styled.div`
     background-color: #e6e7ed;
     width: 250px;
-    height: 270px;
+    height: 300px;
     border: solid 1px #e6e7ed;
     margin: 10px;
     box-shadow: 10px 5px 5px #bcbcc1;
@@ -28,8 +61,12 @@ const StyledCard = styled.div`
         margin-left: -11em;
     }
 
+    & .title {
+        font-weight: bold;
+        margin-top: -1.5px;
+    }
+
     & .dateAndTitle{
-        margin-top: -50px;
     }
 
     & svg {
@@ -40,7 +77,7 @@ const StyledCard = styled.div`
     }
 
     & .intelligence, .energy {
-        margin-right: 30px;
+        margin-right:  30px;
     }
 
 `
