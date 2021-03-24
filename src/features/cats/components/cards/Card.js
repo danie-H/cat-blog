@@ -12,8 +12,11 @@ const Card = (props) => {
             <div className="poster_path">
                     <img src={imageSrc} alt={title} />
             </div>
-         
+            <div className="dateAndTitle">
+                <p className="title">{title}</p>
+            </div>
             <div className="vote_average">
+                <div className="intelligence">
                 <span>Intelligence</span>
                 <Progress 
                     percent={intelligence *20}
@@ -25,22 +28,20 @@ const Card = (props) => {
                         }
                     }}
                 />
-            </div>
-            <div className="vote_average">
-                <span>Energy </span>
-                <Progress 
-                    percent={energy_level *20}
-                    status="default"
-                    theme={{
-                        default: {
-                            symbol: '',
-                            color : ( energy_level < 3) ? 'red' : 'green'
-                        }
-                    }}
-                />
-            </div>
-            <div className="dateAndTitle">
-                <p className="title">{title}</p>
+                </div>
+                <div className="energy">
+                    <span>Energy </span>
+                    <Progress 
+                        percent={energy_level *20}
+                        status="default"
+                        theme={{
+                            default: {
+                                symbol: '',
+                                color : ( energy_level < 3) ? 'red' : 'green'
+                            }
+                        }}
+                    />
+                </div>
             </div>
         </StyleCard>
     )

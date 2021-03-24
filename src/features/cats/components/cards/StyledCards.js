@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const StyledCard = styled.div`
     background-color: #e6e7ed;
     width: 250px;
-    height: 390px;
+    height: 270px;
     border: solid 1px #e6e7ed;
     margin: 10px;
     box-shadow: 10px 5px 5px #bcbcc1;
@@ -16,7 +16,7 @@ const StyledCard = styled.div`
 
     & img, .poster_path {
         width: 250px;
-        height: 300px;
+        height: 250px;
         border-top-left-radius: 0.4em;
         border-top-right-radius: 0.4em;
     }
@@ -24,8 +24,12 @@ const StyledCard = styled.div`
     & .vote_average {
         width: 50px;
         height: 50px;
-        margin-top: -30px;
+        display: flex;
         margin-left: -11em;
+    }
+
+    & .dateAndTitle{
+        margin-top: -50px;
     }
 
     & svg {
@@ -35,15 +39,10 @@ const StyledCard = styled.div`
         border-radius: 50%;
     }
 
-    & .react-sweet-progress-symbol-absolute  {
-        font-size: 15px;
-        margin-top: -40px;
-        margin-left: -40px;
+    & .intelligence, .energy {
+        margin-right: 30px;
     }
 
-    & .react-sweet-progress-symbol {
-        color: white;
-    }
 `
 
 export default StyledCard;
